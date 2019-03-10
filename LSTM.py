@@ -10,29 +10,22 @@ from sklearn.metrics import mean_squared_error
 
 
 
-#Cross Validation
+
 dataset=pd.read_excel('Zinc_Full_Script.xlsx')
+
+#Independent Splitting 
 Close=dataset['Close']
 Close.index=dataset['Date/Time']
 train=Close[:11000]
 test=Close[11000:]
 train, validation = train_test_split(dataset, test_size=0.40, random_state = 5)
 
-
+#Cross Validation 
 kf = StratifiedKFold(n_splits = 10, shuffle = True, random_state = 2)
-result = kf.get_n_splits(Close,y=None,groups= None)
+result = kf.get_n_splits(dataset,y=None,groups= None)
 print (result)
 train = Close.iloc[0]
 test =  Close.iloc[result[1]]
-
-
-
-#Converting to df
-train.index=train['Date/Time']
-train=train['Close']
-train=train.values.reshape(11000,1)
-test=validation['Close']
-
 
 
 #Feature scaling applying normalization
